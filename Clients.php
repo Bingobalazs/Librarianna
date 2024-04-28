@@ -1,8 +1,4 @@
-<?php
 
-
-
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,32 +7,32 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
-    <title>Add book</title>
+    <title>Search client</title>
 </head>
 <body>
 <navbar>
 
     <ul>
-        <li><a href="ujkonyv.php" class="active">+ Book</a></li>
+        <li><a href="ujkonyv.php">+ Book</a></li>
         <li><a href="newclient.php">+ Client</a></li>
         <li><a href="books.php">Books</a></li>
-        <li><a href="Clients.php">Clients</a></li>
+        <li><a href="Clients.php" class="active">Clients</a></li>
         <li><a href="borrow.php" >Borrow</a></li>
         <li><a href="borrows.php">Return</a></li>
         <li><a href="clientcard.php">Client card</a></li>
     </ul>
 </navbar>
-<h1>Add book</h1>
+<h1>Search client</h1>
 <div class="container">
     <section>
         <div class="inprow">
             <div class="inppair-lg">
-                <label for="author">Author</label>
-                <input type="text" name="author" class="" id="author">
+                <label for="fullname">Full name</label>
+                <input type="text" name="fullname" class="" id="fullname">
             </div>
             <div class="inppair-sm">
-                <label for="pages">Pages</label>
-                <input type="text" name="pages" class="" id="pages">
+                <label for="birth">Birth</label>
+                <input type="date" name="birth" class="" id="birth">
             </div>
         </div>
 
@@ -44,12 +40,12 @@
 
         <div class="inprow">
             <div class="inppair-lg">
-                <label for="title">Title</label>
-                <input type="text" name="title" class="" id="title">
+                <label for="address">Address</label>
+                <input type="text" name="address" class="" id="address">
             </div>
             <div class="inppair-sm">
-                <label for="Quantity">Quantity</label>
-                <input type="text" name="Quantity" class="" id="quant">
+                <label for="reg">Reg. date</label>
+                <input type="date" name="reg" class="" id="teg">
             </div>
         </div>
 
@@ -57,28 +53,30 @@
 
         <div class="inprow">
             <div class="inppair-lg">
-                <label for="isbn">ISBN</label>
-                <input type="text" name="isbn" class="" id="isbn">
+                <label for="email">E-mail</label>
+                <input type="text" name="email" class="" id="email">
             </div>
             <div class="inppair-sm">
-                <label for="maxdays">Max borrow days</label>
-                <input type="text" name="maxdays" class="" id="maxdays">
-            </div>
-        </div>
-
-
-
-        <div class="inprow">
-            <div class="inppair-lg">
-                <label for="author">Edition</label>
-                <input type="text" name="edition" class="" id="edition">
-            </div>
-            <div class="inppair-sm">
-                <label for="hard">Hard cover</label>
-                <select name="hard" id="hard">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                <label for="sex">Sex</label>
+                <select name="sex" id="sex">
+                    <option value="" selected disabled>Choose</option>
+                    <option value="f">Female</option>
+                    <option value="m">Male</option>
+                    <option value="o">Other</option>
                 </select>
+            </div>
+        </div>
+
+
+
+        <div class="inprow">
+            <div class="inppair-lg">
+                <label for="phone">Phone</label>
+                <input type="text" name="phone" class="" id="phone">
+            </div>
+            <div class="inppair-sm">
+                <label for="hard">Can borrow</label>
+
             </div>
         </div>
         <div class="inprow">
@@ -87,19 +85,25 @@
                 <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
             </div>
             <div class="inppair-sm">
-                <label for="type">Type</label>
-                <select name="type" id="">
 
-                </select>
             </div>
         </div>
 
         <div class="inprow">
-            <button class="primarybtn" onclick="u()">Add</button>
+            <button class="primarybtn" onclick="ClientSRC(0)">Search</button>
         </div>
 
+
     </section>
+
+
+
 </div>
+
+<table id="result_table">
+
+
+</table>
 
 </body>
 </html>
@@ -115,28 +119,32 @@
         xhttp.open(method, url);
         xhttp.send();
     }
+    function ClientSRC(id) {
 
-    function u(params) {
         var Uurl =
-            "libadd.php?into=konyv"+
-            "&title="+document.getElementById('title').value+
-            "&author="+document.getElementById("author").value+
-            "&pages="+ (document.getElementById('pages').value)+
-            "&quant="+ (document.getElementById('quant').value)+
-            "&isbn="+ (document.getElementById('isbn').value)+
-            "&comment="+ (document.getElementById('comment').value)+
-            "&maxdays="+ (document.getElementById('maxdays').value)+
-            "&edition="+ (document.getElementById('edition').value)+
-            "&hard="+(document.getElementById('hard').value);
+            "libsrc.php?from=client"+"&selectbtn=false"
 
+        +"&email="+document.getElementById('email').value+
+        "&name="+document.getElementById("fullname").value+
 
+        "&address="+ (document.getElementById('address').value)+
+        "&comment="+ (document.getElementById('comment').value);
+
+        if (id !=0){
+            Uurl+="&id="+id
+        }
         console.log(Uurl);
         HTTPRequest(Uurl, 'GET',
             (res)=>{
 
-                console.log(res);
-                window.alert("Book added succefully!")
+                //console.log(res);
+                document.getElementById('result_table').innerHTML="";
+                document.getElementById('result_table').innerHTML="<thead> <tr><th>ID</th><th>Name</th><th>Address</th><th>E-mail</th><th>Tel</th><th></th></tr></thead>";
+                document.getElementById('result_table').innerHTML+=res;
+
+
             })
 
     }
 </script>
+

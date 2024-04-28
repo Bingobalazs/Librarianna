@@ -11,14 +11,14 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
-    <title>Add book</title>
+    <title>Add client</title>
 </head>
 <body>
 <navbar>
 
     <ul>
-        <li><a href="ujkonyv.php" class="active">+ Book</a></li>
-        <li><a href="newclient.php">+ Client</a></li>
+        <li><a href="ujkonyv.php">+ Book</a></li>
+        <li><a href="newclient.php" class="active">+ Client</a></li>
         <li><a href="books.php">Books</a></li>
         <li><a href="Clients.php">Clients</a></li>
         <li><a href="borrow.php" >Borrow</a></li>
@@ -26,17 +26,17 @@
         <li><a href="clientcard.php">Client card</a></li>
     </ul>
 </navbar>
-<h1>Add book</h1>
+<h1>Add client</h1>
 <div class="container">
     <section>
         <div class="inprow">
             <div class="inppair-lg">
-                <label for="author">Author</label>
-                <input type="text" name="author" class="" id="author">
+                <label for="fullname">Full name</label>
+                <input type="text" name="fullname" class="" id="fullname">
             </div>
             <div class="inppair-sm">
-                <label for="pages">Pages</label>
-                <input type="text" name="pages" class="" id="pages">
+                <label for="birth">Birth</label>
+                <input type="date" name="birth" class="" id="birth">
             </div>
         </div>
 
@@ -44,12 +44,12 @@
 
         <div class="inprow">
             <div class="inppair-lg">
-                <label for="title">Title</label>
-                <input type="text" name="title" class="" id="title">
+                <label for="address">Address</label>
+                <input type="text" name="address" class="" id="address">
             </div>
             <div class="inppair-sm">
-                <label for="Quantity">Quantity</label>
-                <input type="text" name="Quantity" class="" id="quant">
+                <label for="reg">Reg. date</label>
+                <input type="date" name="reg" class="" id="reg">
             </div>
         </div>
 
@@ -57,12 +57,17 @@
 
         <div class="inprow">
             <div class="inppair-lg">
-                <label for="isbn">ISBN</label>
-                <input type="text" name="isbn" class="" id="isbn">
+                <label for="email">E-mail</label>
+                <input type="text" name="email" class="" id="email">
             </div>
             <div class="inppair-sm">
-                <label for="maxdays">Max borrow days</label>
-                <input type="text" name="maxdays" class="" id="maxdays">
+                <label for="sex">Sex</label>
+                <select name="sex" id="sex">
+                    <option value="" selected disabled>Choose</option>
+                    <option value="f">Female</option>
+                    <option value="m">Male</option>
+                    <option value="o">Other</option>
+                </select>
             </div>
         </div>
 
@@ -70,14 +75,14 @@
 
         <div class="inprow">
             <div class="inppair-lg">
-                <label for="author">Edition</label>
-                <input type="text" name="edition" class="" id="edition">
+                <label for="phone">Phone</label>
+                <input type="text" name="phone" class="" id="phone">
             </div>
             <div class="inppair-sm">
-                <label for="hard">Hard cover</label>
-                <select name="hard" id="hard">
+                <label for="borrow">Can borrow</label>
+                <select name="borrow" id="borrow">
                     <option value="0">No</option>
-                    <option value="1">Yes</option>
+                    <option value="1" selected >Yes</option>
                 </select>
             </div>
         </div>
@@ -87,10 +92,7 @@
                 <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
             </div>
             <div class="inppair-sm">
-                <label for="type">Type</label>
-                <select name="type" id="">
 
-                </select>
             </div>
         </div>
 
@@ -118,16 +120,15 @@
 
     function u(params) {
         var Uurl =
-            "libadd.php?into=konyv"+
-            "&title="+document.getElementById('title').value+
-            "&author="+document.getElementById("author").value+
-            "&pages="+ (document.getElementById('pages').value)+
-            "&quant="+ (document.getElementById('quant').value)+
-            "&isbn="+ (document.getElementById('isbn').value)+
+            "libadd.php?into=olvaso"+
+            "&name="+document.getElementById('fullname').value
+            +"&birth="+document.getElementById("birth").value+"&address="+ (document.getElementById('address').value)+
+            "&sex="+ (document.getElementById('sex').value)+
+            "&phone="+ (document.getElementById('phone').value)+
             "&comment="+ (document.getElementById('comment').value)+
-            "&maxdays="+ (document.getElementById('maxdays').value)+
-            "&edition="+ (document.getElementById('edition').value)+
-            "&hard="+(document.getElementById('hard').value);
+            "&borrow="+ (document.getElementById('borrow').value)+
+            "&reg_dt="+ (document.getElementById('reg').value)+
+            "&email="+(document.getElementById('email').value);
 
 
         console.log(Uurl);
@@ -135,7 +136,7 @@
             (res)=>{
 
                 console.log(res);
-                window.alert("Book added succefully!")
+                window.alert("Client added succefully!")
             })
 
     }

@@ -1,8 +1,4 @@
-<?php
 
-
-
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,22 +7,22 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
-    <title>Add book</title>
+    <title>Search books</title>
 </head>
 <body>
 <navbar>
 
     <ul>
-        <li><a href="ujkonyv.php" class="active">+ Book</a></li>
+        <li><a href="ujkonyv.php">+ Book</a></li>
         <li><a href="newclient.php">+ Client</a></li>
         <li><a href="books.php">Books</a></li>
         <li><a href="Clients.php">Clients</a></li>
         <li><a href="borrow.php" >Borrow</a></li>
-        <li><a href="borrows.php">Return</a></li>
+        <li><a href="borrows.php" class="active">Return</a></li>
         <li><a href="clientcard.php">Client card</a></li>
     </ul>
 </navbar>
-<h1>Add book</h1>
+<h1>Search books</h1>
 <div class="container">
     <section>
         <div class="inprow">
@@ -35,8 +31,8 @@
                 <input type="text" name="author" class="" id="author">
             </div>
             <div class="inppair-sm">
-                <label for="pages">Pages</label>
-                <input type="text" name="pages" class="" id="pages">
+                <label for="book_id">Book ID</label>
+                <input type="text" name="book_id" class="" id="book_id">
             </div>
         </div>
 
@@ -48,8 +44,8 @@
                 <input type="text" name="title" class="" id="title">
             </div>
             <div class="inppair-sm">
-                <label for="Quantity">Quantity</label>
-                <input type="text" name="Quantity" class="" id="quant">
+                <label for="client_id">Client ID</label>
+                <input type="text" name="client_id" class="" id="client_id">
             </div>
         </div>
 
@@ -61,50 +57,45 @@
                 <input type="text" name="isbn" class="" id="isbn">
             </div>
             <div class="inppair-sm">
-                <label for="maxdays">Max borrow days</label>
-                <input type="text" name="maxdays" class="" id="maxdays">
+                
             </div>
         </div>
 
 
 
-        <div class="inprow">
-            <div class="inppair-lg">
-                <label for="author">Edition</label>
-                <input type="text" name="edition" class="" id="edition">
-            </div>
-            <div class="inppair-sm">
-                <label for="hard">Hard cover</label>
-                <select name="hard" id="hard">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
-            </div>
-        </div>
+        
         <div class="inprow">
             <div class="inppair-lg">
                 <label for="comment">Comment</label>
                 <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
             </div>
             <div class="inppair-sm">
-                <label for="type">Type</label>
-                <select name="type" id="">
+                
 
                 </select>
             </div>
         </div>
 
         <div class="inprow">
-            <button class="primarybtn" onclick="u()">Add</button>
+            <button class="primarybtn" onclick="src()">Search</button>
         </div>
 
     </section>
+
+
+
 </div>
+
+<table id="result_table"   >
+    
+    
+</table>
 
 </body>
 </html>
 <script>
-    function HTTPRequest(url, method, callback) {
+
+function HTTPRequest(url, method, callback) {
         var xhttp = new XMLHttpRequest()
         xhttp.onreadystatechange=function(){
             if (xhttp.readyState == 4 && xhttp.status ==200) {
@@ -116,18 +107,16 @@
         xhttp.send();
     }
 
-    function u(params) {
+    function src(params) {
         var Uurl =
-            "libadd.php?into=konyv"+
+            "libsrc.php?from=borrows"+
             "&title="+document.getElementById('title').value+
             "&author="+document.getElementById("author").value+
-            "&pages="+ (document.getElementById('pages').value)+
-            "&quant="+ (document.getElementById('quant').value)+
             "&isbn="+ (document.getElementById('isbn').value)+
-            "&comment="+ (document.getElementById('comment').value)+
-            "&maxdays="+ (document.getElementById('maxdays').value)+
-            "&edition="+ (document.getElementById('edition').value)+
-            "&hard="+(document.getElementById('hard').value);
+            "&book_id="+ (document.getElementById('book_id').value)+
+            "&client_id="+ (document.getElementById('client_id').value)+
+            "&deletebtn=true"+
+            "&comment="+ (document.getElementById('comment').value);
 
 
         console.log(Uurl);
@@ -135,8 +124,29 @@
             (res)=>{
 
                 console.log(res);
-                window.alert("Book added succefully!")
+                document.getElementById('result_table').innerHTML="<tr><th>ID</th><th>Borrowed</th><th>Book ID</th><th>Author</th><th>Title</th><th>ISBN</th><th>Days</th><th>Client ID</th><th>Client Name</th><th>Tel</th><th>E-mail</th><th></th></tr>";
+                document.getElementById('result_table').innerHTML+=res;
+                
+                
             })
 
     }
+function Delete(params) {
+    var Uurl =
+        "libadd.php?into=return&id="+params;
+
+
+    console.log(Uurl);
+    HTTPRequest(Uurl, 'GET',
+        (res)=>{
+
+            console.log(res);
+
+
+
+        })
+    src()
+}
+
 </script>
+
